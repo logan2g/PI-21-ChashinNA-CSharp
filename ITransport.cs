@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace MyLab
 {
-    interface ITransport
+    public interface ITransport
     {
         void SetPosition(int x, int y, int width, int height);
 

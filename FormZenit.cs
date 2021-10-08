@@ -19,11 +19,17 @@ namespace MyLab
 
         private ITransport zenitka;
 
+        public void setZenit(ITransport zenit)
+        {
+            zenitka = zenit;
+            Draw();
+        }
+
         private void Draw()
         {
             Bitmap bmp = new Bitmap(pictureBoxZenit.Width, pictureBoxZenit.Height);
             Graphics gr = Graphics.FromImage(bmp);
-            zenitka.DrawTransport(gr);
+            zenitka?.DrawTransport(gr);
             pictureBoxZenit.Image = bmp;
         }
 
@@ -33,16 +39,16 @@ namespace MyLab
             switch (name)
             {
                 case "btnUp":
-                    zenitka.MoveTransport(Direction.Up);
+                    zenitka?.MoveTransport(Direction.Up);
                     break;
                 case "btnDown":
-                    zenitka.MoveTransport(Direction.Down);
+                    zenitka?.MoveTransport(Direction.Down);
                     break;
                 case "btnLeft":
-                    zenitka.MoveTransport(Direction.Left);
+                    zenitka?.MoveTransport(Direction.Left);
                     break;
                 case "btnRight":
-                    zenitka.MoveTransport(Direction.Right);
+                    zenitka?.MoveTransport(Direction.Right);
                     break;
             }
             Draw();
