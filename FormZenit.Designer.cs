@@ -29,24 +29,25 @@ namespace MyLab
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.btnCreate = new System.Windows.Forms.Button();
+			this.btnCreateZenit = new System.Windows.Forms.Button();
 			this.btnRight = new System.Windows.Forms.Button();
 			this.btnLeft = new System.Windows.Forms.Button();
 			this.btnDown = new System.Windows.Forms.Button();
 			this.btnUp = new System.Windows.Forms.Button();
 			this.pictureBoxZenit = new System.Windows.Forms.PictureBox();
+			this.btnCreateBrone = new System.Windows.Forms.Button();
 			((System.ComponentModel.ISupportInitialize)(this.pictureBoxZenit)).BeginInit();
 			this.SuspendLayout();
 			// 
-			// btnCreate
+			// btnCreateZenit
 			// 
-			this.btnCreate.Location = new System.Drawing.Point(12, 556);
-			this.btnCreate.Name = "btnCreate";
-			this.btnCreate.Size = new System.Drawing.Size(75, 23);
-			this.btnCreate.TabIndex = 1;
-			this.btnCreate.Text = "Создать";
-			this.btnCreate.UseVisualStyleBackColor = true;
-			this.btnCreate.Click += new System.EventHandler(this.btnCreate_Click);
+			this.btnCreateZenit.Location = new System.Drawing.Point(12, 556);
+			this.btnCreateZenit.Name = "btnCreateZenit";
+			this.btnCreateZenit.Size = new System.Drawing.Size(112, 23);
+			this.btnCreateZenit.TabIndex = 1;
+			this.btnCreateZenit.Text = "Создать Зенитку";
+			this.btnCreateZenit.UseVisualStyleBackColor = true;
+			this.btnCreateZenit.Click += new System.EventHandler(this.btnCreateZenit_Click);
 			// 
 			// btnRight
 			// 
@@ -104,16 +105,27 @@ namespace MyLab
 			this.pictureBoxZenit.TabIndex = 0;
 			this.pictureBoxZenit.TabStop = false;
 			// 
+			// btnCreateBrone
+			// 
+			this.btnCreateBrone.Location = new System.Drawing.Point(131, 555);
+			this.btnCreateBrone.Name = "btnCreateBrone";
+			this.btnCreateBrone.Size = new System.Drawing.Size(123, 23);
+			this.btnCreateBrone.TabIndex = 6;
+			this.btnCreateBrone.Text = "Создать броневик";
+			this.btnCreateBrone.UseVisualStyleBackColor = true;
+			this.btnCreateBrone.Click += new System.EventHandler(this.btnCreateBrone_Click);
+			// 
 			// FormZenit
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(1088, 591);
+			this.Controls.Add(this.btnCreateBrone);
 			this.Controls.Add(this.btnRight);
 			this.Controls.Add(this.btnLeft);
 			this.Controls.Add(this.btnDown);
 			this.Controls.Add(this.btnUp);
-			this.Controls.Add(this.btnCreate);
+			this.Controls.Add(this.btnCreateZenit);
 			this.Controls.Add(this.pictureBoxZenit);
 			this.Name = "FormZenit";
 			this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
@@ -126,11 +138,12 @@ namespace MyLab
 		#endregion
 
 		private System.Windows.Forms.PictureBox pictureBoxZenit;
-		private System.Windows.Forms.Button btnCreate;
+		private System.Windows.Forms.Button btnCreateZenit;
 		private System.Windows.Forms.Button btnUp;
 		private System.Windows.Forms.Button btnDown;
 		private System.Windows.Forms.Button btnLeft;
 		private System.Windows.Forms.Button btnRight;
+		private System.Windows.Forms.Button btnCreateBrone;
 	}
 }
 

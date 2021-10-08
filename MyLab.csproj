@@ -47,6 +47,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BroneCar.cs" />
     <Compile Include="Direction.cs" />
     <Compile Include="FormZenit.cs">
       <SubType>Form</SubType>
@@ -54,8 +55,11 @@
     <Compile Include="FormZenit.Designer.cs">
       <DependentUpon>FormZenit.cs</DependentUpon>
     </Compile>
+    <Compile Include="ITransport.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VeBron.cs" />
+    <Compile Include="VeZenit.cs" />
     <Compile Include="Zenit.cs" />
     <EmbeddedResource Include="FormZenit.resx">
       <DependentUpon>FormZenit.cs</DependentUpon>

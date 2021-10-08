@@ -17,7 +17,7 @@ namespace MyLab
             InitializeComponent();
         }
 
-        private Zenit zenitka;
+        private ITransport zenitka;
 
         private void Draw()
         {
@@ -25,15 +25,6 @@ namespace MyLab
             Graphics gr = Graphics.FromImage(bmp);
             zenitka.DrawTransport(gr);
             pictureBoxZenit.Image = bmp;
-        }
-
-        private void btnCreate_Click(object sender, EventArgs e)
-        {
-            Random rnd = new Random();
-            zenitka = new Zenit();
-            zenitka.Init(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Black, Color.Green, true, true, true);
-            zenitka.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxZenit.Width, pictureBoxZenit.Height);
-            Draw();
         }
 
         private void buttonMove_Click(object sender, EventArgs e)
@@ -56,5 +47,21 @@ namespace MyLab
             }
             Draw();
         }
-    }
+
+		private void btnCreateZenit_Click(object sender, EventArgs e)
+		{
+            Random rnd = new Random();
+            zenitka = new VeZenit(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Black, Color.Green, true, true);
+            zenitka.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxZenit.Width, pictureBoxZenit.Height);
+            Draw();
+        }
+
+		private void btnCreateBrone_Click(object sender, EventArgs e)
+		{
+            Random rnd = new Random();
+            zenitka = new BroneCar(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Blue, false);
+            zenitka.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxZenit.Width, pictureBoxZenit.Height);
+            Draw();
+        }
+	}
 }
