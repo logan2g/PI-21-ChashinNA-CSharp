@@ -16,7 +16,7 @@ namespace MyLab
 		{
 			Application.EnableVisualStyles();
 			Application.SetCompatibleTextRenderingDefault(false);
-			Application.Run(new FormZenit());
+			Application.Run(new Baza());
 		}
 	}
 }
