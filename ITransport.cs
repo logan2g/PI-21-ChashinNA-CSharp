@@ -14,5 +14,7 @@ namespace MyLab
         void MoveTransport(Direction direction);
 
         void DrawTransport(Graphics g);
+
+        void setMainColor(Color mainColor);
     }
 }
