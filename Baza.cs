@@ -16,7 +16,6 @@ namespace MyLab
         {
             InitializeComponent();
             parkingColl = new ParkingCollection(pictureBoxParking.Width, pictureBoxParking.Height);
-            Draw();
         }
 
         private readonly ParkingCollection parkingColl;
@@ -74,50 +73,6 @@ namespace MyLab
             }
         }
 
-        private void btnParkBronCar_Click(object sender, EventArgs e)
-        {
-            if (lBParking.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    var car = new BroneCar(100, 1000, dialog.Color, false);
-                    if (parkingColl[lBParking.SelectedItem.ToString()] + car)
-                    {
-                        Draw();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Парковка переполнена");
-                    }
-                }
-            }
-        }
-
-        private void btnParkZenit_Click(object sender, EventArgs e)
-        {
-            if (lBParking.SelectedIndex > -1)
-            {
-                ColorDialog dialog = new ColorDialog();
-                if (dialog.ShowDialog() == DialogResult.OK)
-                {
-                    ColorDialog dialogDop = new ColorDialog();
-                    if (dialogDop.ShowDialog() == DialogResult.OK)
-                    {
-                        var car = new VeZenit(100, 1000, dialog.Color, dialogDop.Color, true, true);
-                        if (parkingColl[lBParking.SelectedItem.ToString()] + car)
-                        {
-                            Draw();
-                        }
-                        else
-                        {
-                            MessageBox.Show("Парковка переполнена");
-                        }
-                    }
-                }
-            }
-        }
-
         private void btnTake_Click(object sender, EventArgs e)
         {
             if (lBParking.SelectedIndex > -1 && mTBLot.Text != "")
@@ -137,6 +92,28 @@ namespace MyLab
         private void lBParking_SelectedIndexChanged(object sender, EventArgs e)
         {
             Draw();
+        }
+
+        private void AddCar(abstrBron car)
+        {
+            if (car != null && lBParking.SelectedIndex > -1)
+            {
+                if ((parkingColl[lBParking.SelectedItem.ToString()]) + car)
+                {
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Машину не удалось поставить");
+                }
+            }
+        }
+
+        private void btnChoose_Click(object sender, EventArgs e)
+        {
+            var formCarConfig = new FormCarConfig();
+            formCarConfig.AddEvent(AddCar);
+            formCarConfig.Show();
         }
     }
 }

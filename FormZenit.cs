@@ -57,7 +57,7 @@ namespace MyLab
 		private void btnCreateZenit_Click(object sender, EventArgs e)
 		{
             Random rnd = new Random();
-            zenitka = new VeZenit(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Black, Color.Green, true, true);
+            zenitka = new BroneZenit(rnd.Next(100, 300), rnd.Next(1000, 2000), Color.Black, Color.Green, true, true);
             zenitka.SetPosition(rnd.Next(10, 100), rnd.Next(10, 100), pictureBoxZenit.Width, pictureBoxZenit.Height);
             Draw();
         }

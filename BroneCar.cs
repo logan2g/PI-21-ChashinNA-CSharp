@@ -7,7 +7,7 @@ using System.Drawing;
 
 namespace MyLab
 {
-	class BroneCar : VeBron
+	public class BroneCar : abstrBron
 	{
 		private readonly int carWidth = 160;
 		private readonly int carHeight = 107;
