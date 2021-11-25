@@ -32,7 +32,7 @@ namespace MyLab
             {
                 lBParking.SelectedIndex = 0;
             }
-            else if (lBParking.Items.Count > 0 && index > -1 && index <lBParking.Items.Count)
+            else if (lBParking.Items.Count > 0 && index > -1 && index < lBParking.Items.Count)
             {
                 lBParking.SelectedIndex = index;
             }
@@ -64,8 +64,8 @@ namespace MyLab
         {
             if (lBParking.SelectedIndex > -1)
             {
-                if (MessageBox.Show($"Удалить парковку { lBParking.SelectedItem.ToString()}?", "Удаление", MessageBoxButtons.YesNo, 
-                MessageBoxIcon.Question) == DialogResult.Yes) 
+                if (MessageBox.Show($"Удалить парковку { lBParking.SelectedItem.ToString()}?", "Удаление", MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     parkingColl.DelParking(lBParking.SelectedItem.ToString());
                     ReloadLevels();
@@ -114,6 +114,38 @@ namespace MyLab
             var formCarConfig = new FormCarConfig();
             formCarConfig.AddEvent(AddCar);
             formCarConfig.Show();
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (saveFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (parkingColl.SaveData(saveFileDialog.FileName))
+                {
+                    MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    MessageBox.Show("Не сохранилось", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+        }
+
+        private void loadToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                if (parkingColl.LoadData(openFileDialog.FileName))
+                {
+                    MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    ReloadLevels();
+                    Draw();
+                }
+                else
+                {
+                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
         }
     }
 }

@@ -11,7 +11,20 @@ namespace MyLab
 	{
 		private readonly int carWidth = 160;
 		private readonly int carHeight = 107;
-		private bool delta;
+        protected readonly char separator = ';';
+        protected bool delta;
+
+        public BroneCar(string info)
+        {
+            string[] strs = info.Split(separator);
+            if (strs.Length == 4)
+            {
+                MaxSpeed = Convert.ToInt32(strs[0]);
+                Weight = Convert.ToInt32(strs[1]);
+                MainColor = Color.FromName(strs[2]);
+                delta = Convert.ToBoolean(strs[3]);
+            }
+        }
 
 		public BroneCar(int maxSpeed, float weight, Color mainColor, bool needDelta)
 		{
@@ -72,5 +85,10 @@ namespace MyLab
 			g.DrawRectangle(pen, new Rectangle((int)_startPosX, (int)_startPosY + 25 + y_offset, 160, 35));
 			
 		}
-	}
+
+        public override string ToString()
+        {
+            return $"{MaxSpeed}{separator}{Weight}{separator}{MainColor.Name}{separator}{delta}";
+        }
+    }
 }

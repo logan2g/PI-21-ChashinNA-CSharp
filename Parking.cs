@@ -33,7 +33,7 @@ namespace MyLab
 
         public static bool operator +(Parking<T> p, T car)
         {
-            if(p._places.Count < p._maxCount)
+            if (p._places.Count < p._maxCount)
             {
                 p._places.Add(car);
                 return true;
@@ -62,7 +62,7 @@ namespace MyLab
             for (int i = 0; i < _places.Count; i++)
             {
                 _places[i].SetPosition(20 + i % 4 * _placeSizeWidth, i / 4 * _placeSizeHeight + 15, pictureWidth, pictureHeight);
-                _places[i]?.DrawTransport(g);
+                _places[i].DrawTransport(g);
             }
         }
 
@@ -74,10 +74,19 @@ namespace MyLab
             {
                 for (int j = 0; j < pictureHeight / _placeSizeHeight + 1; ++j)
                 {//линия рамзетки места 
-                    g.DrawLine(pen, i * _placeSizeWidth, j * _placeSizeHeight, i *_placeSizeWidth + _placeSizeWidth / 2, j * _placeSizeHeight);
+                    g.DrawLine(pen, i * _placeSizeWidth, j * _placeSizeHeight, i * _placeSizeWidth + _placeSizeWidth / 2, j * _placeSizeHeight);
                 }
                 g.DrawLine(pen, i * _placeSizeWidth, 0, i * _placeSizeWidth, (pictureHeight / _placeSizeHeight) * _placeSizeHeight);
             }
+        }
+
+        public T GetNext(int index)
+        {
+            if (index < 0 || index >= _places.Count)
+            {
+                return null;
+            }
+            return _places[index];
         }
     }
 }
