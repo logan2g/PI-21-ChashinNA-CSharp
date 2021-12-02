@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using NLog;
 
 namespace MyLab
 {
@@ -16,9 +17,11 @@ namespace MyLab
         {
             InitializeComponent();
             parkingColl = new ParkingCollection(pictureBoxParking.Width, pictureBoxParking.Height);
+            logger = LogManager.GetCurrentClassLogger();
         }
 
         private readonly ParkingCollection parkingColl;
+        private readonly Logger logger;
 
         private void ReloadLevels()
         {
@@ -54,8 +57,10 @@ namespace MyLab
             if (string.IsNullOrEmpty(tBParkName.Text))
             {
                 MessageBox.Show("Введите название парковки", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                logger.Warn("Не введено название парковки!");
                 return;
             }
+            logger.Info($"Добавили парковку {tBParkName.Text}");
             parkingColl.AddParking(tBParkName.Text);
             ReloadLevels();
         }
@@ -64,10 +69,11 @@ namespace MyLab
         {
             if (lBParking.SelectedIndex > -1)
             {
-                if (MessageBox.Show($"Удалить парковку { lBParking.SelectedItem.ToString()}?", "Удаление", MessageBoxButtons.YesNo,
+                if (MessageBox.Show($"Удалить парковку {lBParking.SelectedItem.ToString()}?", "Удаление", MessageBoxButtons.YesNo,
                 MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     parkingColl.DelParking(lBParking.SelectedItem.ToString());
+					logger.Info($"Удалили парковку {lBParking.SelectedItem.ToString()}"); 
                     ReloadLevels();
                 }
             }
@@ -77,20 +83,34 @@ namespace MyLab
         {
             if (lBParking.SelectedIndex > -1 && mTBLot.Text != "")
             {
-                var car = parkingColl[lBParking.SelectedItem.ToString()] - Convert.ToInt32(mTBLot.Text);
-                if (car != null)
-                {
-                    FormZenit form = new FormZenit();
-                    form.setZenit(car);
-                    form.ShowDialog();
+                try {
+                    var car = parkingColl[lBParking.SelectedItem.ToString()] - Convert.ToInt32(mTBLot.Text);
+                    if (car != null)
+                    {
+                        FormZenit form = new FormZenit();
+                        form.setZenit(car);
+                        form.ShowDialog();
+                        logger.Info($"Изъят транспорт {car} с места {mTBLot.Text}");
+                    }
+                    mTBLot.Text = "";
+                    Draw();
                 }
-                mTBLot.Text = "";
-                Draw();
+                catch (ParkingNotFoundException ex)
+                {
+                    MessageBox.Show(ex.Message, "Не найдено", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn(ex.Message);
+                }
             }
         }
 
         private void lBParking_SelectedIndexChanged(object sender, EventArgs e)
         {
+            logger.Info($"Перешли на парковку {lBParking.SelectedItem.ToString()}");
             Draw();
         }
 
@@ -98,13 +118,27 @@ namespace MyLab
         {
             if (car != null && lBParking.SelectedIndex > -1)
             {
-                if ((parkingColl[lBParking.SelectedItem.ToString()]) + car)
+                try
                 {
-                    Draw();
+                    if ((parkingColl[lBParking.SelectedItem.ToString()]) + car)
+                    {
+                        Draw();
+                        logger.Info($"Добавлен транспорт {car}");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Транспорт не удалось поставить");
+                    }
                 }
-                else
+                catch (ParkingOverflowException ex)
                 {
-                    MessageBox.Show("Машину не удалось поставить");
+                    MessageBox.Show(ex.Message, "Переполнение", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn(ex.Message);
                 }
             }
         }
@@ -120,13 +154,16 @@ namespace MyLab
         {
             if (saveFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (parkingColl.SaveData(saveFileDialog.FileName))
+                try
                 {
+                    parkingColl.SaveData(saveFileDialog.FileName);
                     MessageBox.Show("Сохранение прошло успешно", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    logger.Info("Сохранено в файл " + saveFileDialog.FileName);
                 }
-                else
+                catch (Exception ex)
                 {
-                    MessageBox.Show("Не сохранилось", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn(ex.Message);
                 }
             }
         }
@@ -135,15 +172,22 @@ namespace MyLab
         {
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
-                if (parkingColl.LoadData(openFileDialog.FileName))
-                {
+                try {
+                    parkingColl.LoadData(openFileDialog.FileName);
                     MessageBox.Show("Загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    logger.Info("Загружено из файла " + openFileDialog.FileName);
                     ReloadLevels();
                     Draw();
                 }
-                else
+                catch (ParkingOccupiedPlaceException ex)
                 {
-                    MessageBox.Show("Не загрузили", "Результат", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show(ex.Message, "Занятое место", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn(ex.Message);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Неизвестная ошибка при сохранении", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    logger.Warn(ex.Message);
                 }
             }
         }

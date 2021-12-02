@@ -81,11 +81,11 @@ namespace MyLab
             return true;
         }
 		
-        public bool LoadData(string filename)
+        public void LoadData(string filename)
         {
             if (!File.Exists(filename))
             {
-                return false;
+                throw new FileNotFoundException();
             }
             using (StreamReader sr = new StreamReader(filename))
             {
@@ -98,11 +98,10 @@ namespace MyLab
                 else
                 {
                     //если нет такой записи, то это не те данные 
-                    return false;
+                    throw new ArgumentOutOfRangeException();
                 }
                 abstrBron car = null;
                 string key = string.Empty;
-
                 while ((strs = sr.ReadLine()) != null)
                 {
                     if (strs.Contains("Parking"))
@@ -123,12 +122,11 @@ namespace MyLab
                         }
                         if (!(parkingStages[key] + car))
                         {
-                            return false;
+                            throw new ParkingOverflowException();
                         }
                     }
                 }
             }
-            return true;
         }
     }
 }
