@@ -278,7 +278,7 @@
             // 
             // pOrange
             // 
-            this.pOrange.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(0)))));
+            this.pOrange.BackColor = System.Drawing.Color.DarkOrange;
             this.pOrange.Location = new System.Drawing.Point(64, 101);
             this.pOrange.Name = "pOrange";
             this.pOrange.Size = new System.Drawing.Size(50, 50);

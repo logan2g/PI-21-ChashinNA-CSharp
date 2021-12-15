@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Collections;
 using System.Drawing;
 
 namespace MyLab
 {
-    public class Parking<T> where T : class, ITransport
+    public class Parking<T> : IEnumerator<T>, IEnumerable<T> where T : class, ITransport
     {
         private readonly List<T> _places;
         private readonly int pictureWidth;
@@ -15,6 +12,10 @@ namespace MyLab
         private readonly int _maxCount;
         private const int _placeSizeWidth = 210;
         private const int _placeSizeHeight = 140;
+        private int _currentIndex;
+        public T Current => _places[_currentIndex];
+
+        object IEnumerator.Current => _places[_currentIndex];
 
         public Parking(int picWidth, int picHeight)
         {
@@ -24,6 +25,7 @@ namespace MyLab
             _places = new List<T>();
             pictureWidth = picWidth;
             pictureHeight = picHeight;
+            _currentIndex = -1;
         }
 
         private bool CheckFreePlace(int index)
@@ -36,6 +38,10 @@ namespace MyLab
             if (p._places.Count >= p._maxCount)
             {
                 throw new ParkingOverflowException();
+            }
+            if (p._places.Contains(car))
+            {
+                throw new ParkingAlreadyHaveException();
             }
             p._places.Add(car);
             return true;
@@ -87,6 +93,40 @@ namespace MyLab
                 return null;
             }
             return _places[index];
+        }
+
+        public void Sort() => _places.Sort(new BroneComparer());
+
+        public void Dispose()
+        {
+        }
+
+        public bool MoveNext()
+        {
+            if (_currentIndex + 1 < _places.Count)
+            {
+                _currentIndex++;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void Reset()
+        {
+            _currentIndex = -1;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            return this;
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return this;
         }
     }
 }
