@@ -7,11 +7,11 @@ using System.Drawing;
 
 namespace MyLab
 {
-    public class BroneZenit : BroneCar
+    public class BroneZenit : BroneCar, IEquatable<BroneZenit>
     {
         public Color DopColor { private set; get; }
-        private bool Weapon;
-        private bool Head;
+        public bool Weapon;
+        public bool Head;
 
         public BroneZenit(int maxSpeed, float weight, Color mainColor, Color dopColor, bool weapon, bool head)
             : base(maxSpeed, weight, mainColor, true)
@@ -66,6 +66,34 @@ namespace MyLab
         public override string ToString()
         {
             return $"{base.ToString()}{separator}{DopColor.Name}{separator}{Weapon}{separator}{Head}";
+        }
+
+        public bool Equals(BroneZenit other)
+        {
+            if (DopColor == other.DopColor && Weapon == other.Weapon && Head == other.Head)
+            {
+                return base.Equals(other);
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+            if (!(obj is BroneZenit))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(obj as BroneZenit);
+            }
         }
     }
 }

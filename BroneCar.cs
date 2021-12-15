@@ -1,13 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
 namespace MyLab
 {
-	public class BroneCar : abstrBron
+	public class BroneCar : abstrBron, IEquatable<BroneCar>
 	{
 		private readonly int carWidth = 160;
 		private readonly int carHeight = 107;
@@ -89,6 +85,48 @@ namespace MyLab
         public override string ToString()
         {
             return $"{MaxSpeed}{separator}{Weight}{separator}{MainColor.Name}{separator}{delta}";
+        }
+
+        public bool Equals(BroneCar other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+            if (GetType().Name != other.GetType().Name)
+            {
+                return false;
+            }
+            if (MaxSpeed != other.MaxSpeed)
+            {
+                return false;
+            }
+            if (Weight != other.Weight)
+            {
+                return false;
+            }
+            if (MainColor != other.MainColor)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public override bool Equals(Object obj)
+        {
+            if (obj == null)
+            {
+                return false;
+            }
+
+            if (!(obj is BroneCar))
+            {
+                return false;
+            }
+            else
+            {
+                return Equals(obj as BroneCar);
+            }
         }
     }
 }
